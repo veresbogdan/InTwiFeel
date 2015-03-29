@@ -1,8 +1,9 @@
 package intwifeel.controller;
 
-import intwifeel.model.User;
+import intwifeel.model.UserEntity;
 import intwifeel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +14,19 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public @ResponseBody User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    @PreAuthorize(value = "permitAll()")
+    public @ResponseBody
+    UserEntity createUser(@RequestBody UserEntity userEntity) {
+        return userService.createUser(userEntity);
     }
 
     @RequestMapping(value = "/find/{name}", method = RequestMethod.GET)
-    public @ResponseBody User findByName(@PathVariable String name) {
-        return userService.findByName(name);
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody
+    UserEntity findByName(@PathVariable String name) {
+        UserEntity userEntity = userService.findByName(name);
+        userEntity.setPassword(null);
+
+        return userEntity;
     }
 }
