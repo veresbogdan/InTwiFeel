@@ -29,12 +29,17 @@ public class UserService extends BaseService implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private ProductService productService;
+
     public UserEntity createUser(UserEntity userEntity) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(userEntity.getPassword());
         userEntity.setPassword(hashedPassword);
 
+        productService.saveUserProducts(userEntity);
         userDao.saveOrUpdate(userEntity);
+        productService.updateUserProducts(userEntity);
 
         userEntity.setPassword(null);
 

@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BaseEntity implements Serializable{
+public class BaseEntity implements Serializable {
+
     @Id
     private String id;
 
@@ -44,7 +45,7 @@ public class BaseEntity implements Serializable{
         references.put(collection, referenceIds);
     }
 
-    protected void addReferenceList(String snapshot, List<String> snapshotList) {
-        references.put(snapshot, snapshotList);
+    protected void addReferenceList(String collection, List<String> referenceList) {
+        references.put(collection, referenceList);
     }
 }
