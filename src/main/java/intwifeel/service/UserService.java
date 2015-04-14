@@ -1,6 +1,7 @@
 package intwifeel.service;
 
 import intwifeel.dao.UserDao;
+import intwifeel.model.ProductEntity;
 import intwifeel.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,10 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -89,5 +87,18 @@ public class UserService extends BaseService implements UserDetailsService {
 
     private GrantedAuthority createAuthority(UserEntity userEntity) {
         return new SimpleGrantedAuthority(userEntity.getRole());
+    }
+
+    public void updateUser(UserEntity userEntity, ProductEntity productEntity) {
+        if (userEntity.getProducts() != null) {
+            userEntity.getProducts().add(productEntity);
+        } else {
+            List<ProductEntity> productEntities = new ArrayList<>();
+            productEntities.add(productEntity);
+
+            userEntity.setProducts(productEntities);
+        }
+
+        userDao.saveOrUpdate(userEntity);
     }
 }
