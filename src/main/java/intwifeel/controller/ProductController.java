@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/product")
 public class ProductController extends BaseController {
@@ -18,5 +20,11 @@ public class ProductController extends BaseController {
     @PreAuthorize(value = "isAuthenticated()")
     public @ResponseBody ProductEntity addProduct(@RequestBody ProductEntity productEntity) {
         return productService.addProduct(productEntity);
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody List<ProductEntity> listProducts() {
+        return productService.listProductsForUser();
     }
 }

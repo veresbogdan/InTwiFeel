@@ -8,6 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @Transactional
 public class ProductService extends BaseService {
@@ -19,9 +23,7 @@ public class ProductService extends BaseService {
     private UserService userService;
 
     public ProductEntity addProduct(ProductEntity productEntity) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        UserEntity userEntity = userService.findByName(username);
+        UserEntity userEntity = userService.getCurrentUser();
 
         if (userEntity != null) {
             productEntity.setUser(userEntity);
@@ -56,5 +58,14 @@ public class ProductService extends BaseService {
                 saveProduct(productEntity);
             }
         }
+    }
+
+    public List<ProductEntity> listProductsForUser() {
+        UserEntity userEntity = userService.getCurrentUser();
+
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put("user", userEntity);
+
+        return productDao.findByCriteria(criteria, ProductEntity.class);
     }
 }

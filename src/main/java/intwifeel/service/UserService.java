@@ -101,4 +101,10 @@ public class UserService extends BaseService implements UserDetailsService {
 
         userDao.saveOrUpdate(userEntity);
     }
+
+    public UserEntity getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return findByName(username);
+    }
 }
