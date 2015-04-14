@@ -68,4 +68,14 @@ public class ProductService extends BaseService {
 
         return productDao.findByCriteria(criteria, ProductEntity.class);
     }
+
+    public void removeProduct(String name) {
+        List<ProductEntity> ownProducts = listProductsForUser();
+
+        for (ProductEntity productEntity: ownProducts) {
+            if (productEntity.getName().equals(name)) {
+                productDao.delete(productEntity);
+            }
+        }
+    }
 }

@@ -27,4 +27,10 @@ public class ProductController extends BaseController {
     public @ResponseBody List<ProductEntity> listProducts() {
         return productService.listProductsForUser();
     }
+
+    @RequestMapping(value = "/remove/{name}", method = RequestMethod.DELETE)
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody void removeProduct(@PathVariable String name) {
+        productService.removeProduct(name);
+    }
 }
