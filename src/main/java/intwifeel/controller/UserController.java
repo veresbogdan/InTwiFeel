@@ -23,6 +23,8 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/find/{name}", method = RequestMethod.GET)
     @PreAuthorize(value = "isAuthenticated()")
     public @ResponseBody
+
+
     UserEntity findByName(@PathVariable String name) {
         UserEntity userEntity = userService.findByName(name);
         userEntity.setPassword(null);
