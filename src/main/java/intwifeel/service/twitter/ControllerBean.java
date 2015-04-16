@@ -6,10 +6,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.Serializable;
 
-/**
- * Created by Admin on 23.03.2015.
- */
-
 public class ControllerBean implements Serializable {
 
     private String statusText;
