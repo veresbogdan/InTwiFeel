@@ -19,6 +19,10 @@
         <property name="favorPathExtension" value="false" />
     </bean>
 
+    <bean id="twitter"
+          factory-bean="twitterAuth"
+          factory-method="getTwitter"/>
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/pages/"/>
         <property name="suffix" value=".jsp"/>

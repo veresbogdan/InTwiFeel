@@ -4,7 +4,6 @@ import intwifeel.dao.ProductDao;
 import intwifeel.model.ProductEntity;
 import intwifeel.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +21,9 @@ public class ProductService extends BaseService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TwitterService twitterService;
+
     public ProductEntity addProduct(ProductEntity productEntity) {
         UserEntity userEntity = userService.getCurrentUser();
 
@@ -38,6 +40,9 @@ public class ProductService extends BaseService {
 
     public ProductEntity saveProduct(ProductEntity productEntity) {
         productDao.saveOrUpdate(productEntity);
+
+        //TODO remove this from here later
+        twitterService.searchForTweet(productEntity.getName(), 50);
 
         return productEntity;
     }
