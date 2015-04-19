@@ -42,7 +42,7 @@ public class ProductService extends BaseService {
         productDao.saveOrUpdate(productEntity);
 
         //TODO remove this from here later
-        twitterService.searchForTweet(productEntity.getName(), 50);
+        twitterService.searchForTweet(productEntity.getName(), 10);
 
         return productEntity;
     }
