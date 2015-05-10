@@ -94,4 +94,8 @@ public class ProductService extends BaseService {
             }
         }
     }
+
+    public String getExampleForProduct(String name) {
+        return redisDao.readValue(name);
+    }
 }

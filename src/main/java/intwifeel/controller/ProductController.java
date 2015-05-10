@@ -33,4 +33,10 @@ public class ProductController extends BaseController {
     public @ResponseBody void removeProduct(@PathVariable String name) {
         productService.removeProduct(name);
     }
+
+    @RequestMapping(value = "/example/{name}", method = RequestMethod.GET)
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody String getExampleForProduct(@PathVariable String name) {
+        return productService.getExampleForProduct(name);
+    }
 }
