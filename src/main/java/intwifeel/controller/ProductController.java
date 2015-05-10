@@ -39,4 +39,10 @@ public class ProductController extends BaseController {
     public @ResponseBody String getExampleForProduct(@PathVariable String name) {
         return productService.getExampleForProduct(name);
     }
+
+    @RequestMapping(value = "/get/{name}", method = RequestMethod.GET)
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody ProductEntity getProductByName(@PathVariable String name) throws Exception {
+        return productService.getProductByName(name);
+    }
 }

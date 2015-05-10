@@ -1,6 +1,7 @@
-package intwifeel.controller;
+package intwifeel.model;
 
 public class ErrorResponse {
+
     private String message;
 
     public ErrorResponse(String message) {

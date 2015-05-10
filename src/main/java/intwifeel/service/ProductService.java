@@ -95,19 +95,7 @@ public class ProductService extends BaseService {
         List<ProductEntity> productEntities = productDao.findByCriteria(criteria, ProductEntity.class);
 
         for (ProductEntity productEntity: productEntities) {
-            String exampleTwitt = redisDao.readValue(productEntity.getName());
-
-            if (exampleTwitt != null) {
-                productEntity.setExample(exampleTwitt);
-            }
-
-            if (productEntity.getScores() != null) {
-                Integer sum = 0;
-                for (ScoreEntity scoreEntity : productEntity.getScores()) {
-                    sum += scoreEntity.getScore();
-                }
-                productEntity.setAverage(sum / productEntity.getScores().size());
-            }
+            addFieldsOnProduct(productEntity);
         }
 
         return productEntities;
@@ -125,5 +113,41 @@ public class ProductService extends BaseService {
 
     public String getExampleForProduct(String name) {
         return redisDao.readValue(name);
+    }
+
+    public ProductEntity getProductByName(String name) throws Exception {
+        UserEntity userEntity = userService.getCurrentUser();
+
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put("user", userEntity);
+        criteria.put("name", name);
+
+        List<ProductEntity> productEntities = productDao.findByCriteria(criteria, ProductEntity.class);
+
+        if (!productEntities.isEmpty()) {
+            ProductEntity productEntity = productEntities.get(0);
+
+            addFieldsOnProduct(productEntity);
+
+            return productEntity;
+        } else {
+            throw new Exception("Term was not found!");
+        }
+    }
+
+    private void addFieldsOnProduct(ProductEntity productEntity) {
+        String exampleTwitt = redisDao.readValue(productEntity.getName());
+
+        if (exampleTwitt != null) {
+            productEntity.setExample(exampleTwitt);
+        }
+
+        if (productEntity.getScores() != null) {
+            Integer sum = 0;
+            for (ScoreEntity scoreEntity : productEntity.getScores()) {
+                sum += scoreEntity.getScore();
+            }
+            productEntity.setAverage(sum / productEntity.getScores().size());
+        }
     }
 }
