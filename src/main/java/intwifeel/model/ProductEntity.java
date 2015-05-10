@@ -15,6 +15,8 @@ public class ProductEntity extends BaseEntity {
 
     private Date date;
 
+    private String example;
+
     @DBRef
     @JsonIgnore
     private UserEntity user;
@@ -41,6 +43,14 @@ public class ProductEntity extends BaseEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getExample() {
+        return example;
+    }
+
+    public void setExample(String example) {
+        this.example = example;
     }
 
     public UserEntity getUser() {

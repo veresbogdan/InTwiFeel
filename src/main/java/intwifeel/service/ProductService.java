@@ -1,6 +1,7 @@
 package intwifeel.service;
 
 import intwifeel.dao.ProductDao;
+import intwifeel.dao.RedisDao;
 import intwifeel.model.ProductEntity;
 import intwifeel.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ProductService extends BaseService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisDao redisDao;
 
     public ProductEntity addProduct(ProductEntity productEntity) {
         UserEntity userEntity = userService.getCurrentUser();
@@ -68,7 +72,17 @@ public class ProductService extends BaseService {
         Map<String, Object> criteria = new HashMap<>();
         criteria.put("user", userEntity);
 
-        return productDao.findByCriteria(criteria, ProductEntity.class);
+        List<ProductEntity> productEntities = productDao.findByCriteria(criteria, ProductEntity.class);
+
+        for (ProductEntity productEntity: productEntities) {
+            String exampleTwitt = redisDao.readValue(productEntity.getName());
+
+            if (exampleTwitt != null) {
+                productEntity.setExample(exampleTwitt);
+            }
+        }
+
+        return productEntities;
     }
 
     public void removeProduct(String name) {
