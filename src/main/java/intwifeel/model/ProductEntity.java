@@ -4,18 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.util.List;
 
 @Document(collection = "product")
 public class ProductEntity extends BaseEntity {
 
     private String name;
 
-    private Integer score;
-
-    private Date date;
-
     private String example;
+
+    @DBRef
+    private List<ScoreEntity> scores;
+
+    private Integer average;
 
     @DBRef
     @JsonIgnore
@@ -29,28 +30,28 @@ public class ProductEntity extends BaseEntity {
         this.name = name;
     }
 
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public String getExample() {
         return example;
     }
 
     public void setExample(String example) {
         this.example = example;
+    }
+
+    public List<ScoreEntity> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<ScoreEntity> scores) {
+        this.scores = scores;
+    }
+
+    public Integer getAverage() {
+        return average;
+    }
+
+    public void setAverage(Integer average) {
+        this.average = average;
     }
 
     public UserEntity getUser() {
