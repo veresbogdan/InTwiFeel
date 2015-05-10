@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +22,11 @@ public class ProductService extends BaseService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private TwitterService twitterService;
-
     public ProductEntity addProduct(ProductEntity productEntity) {
         UserEntity userEntity = userService.getCurrentUser();
 
+        productEntity.setScore(0);
+        productEntity.setDate(new Date());
         if (userEntity != null) {
             productEntity.setUser(userEntity);
         }
@@ -40,9 +40,6 @@ public class ProductService extends BaseService {
 
     public ProductEntity saveProduct(ProductEntity productEntity) {
         productDao.saveOrUpdate(productEntity);
-
-        //TODO remove this from here later
-        twitterService.searchForTweet(productEntity.getName(), 10);
 
         return productEntity;
     }
