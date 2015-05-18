@@ -1,6 +1,7 @@
 package intwifeel.controller;
 
 import intwifeel.model.ProductEntity;
+import intwifeel.model.ScoreEntity;
 import intwifeel.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,5 +45,11 @@ public class ProductController extends BaseController {
     @PreAuthorize(value = "isAuthenticated()")
     public @ResponseBody ProductEntity getProductByName(@PathVariable String name) throws Exception {
         return productService.getProductByName(name);
+    }
+
+    @RequestMapping(value = "/scores/{name}/{from}/{until}", method = RequestMethod.GET)
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody List<ScoreEntity> getScores(@PathVariable String name, @PathVariable Long from, @PathVariable Long until) throws Exception {
+        return productService.getScoresByCriteria(name, from, until);
     }
 }

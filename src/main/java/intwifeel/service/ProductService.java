@@ -150,4 +150,17 @@ public class ProductService extends BaseService {
             productEntity.setAverage(sum / productEntity.getScores().size());
         }
     }
+
+    public List<ScoreEntity> getScoresByCriteria(String name, Long from, Long until) throws Exception {
+        List<ScoreEntity> result = new ArrayList<>();
+        ProductEntity productEntity = getProductByName(name);
+
+        for (ScoreEntity scoreEntity: productEntity.getScores()) {
+            if (scoreEntity.getDate().getTime() >= from && scoreEntity.getDate().getTime() <= until) {
+                result.add(scoreEntity);
+            }
+        }
+
+        return result;
+    }
 }
