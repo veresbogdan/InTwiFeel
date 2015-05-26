@@ -143,7 +143,7 @@ public class ProductService extends BaseService {
         }
 
         if (productEntity.getScores() != null) {
-            Integer sum = 0;
+            Float sum = 0f;
             for (ScoreEntity scoreEntity : productEntity.getScores()) {
                 sum += scoreEntity.getScore();
             }

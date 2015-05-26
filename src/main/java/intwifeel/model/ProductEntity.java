@@ -16,7 +16,7 @@ public class ProductEntity extends BaseEntity {
     @DBRef
     private List<ScoreEntity> scores;
 
-    private Integer average;
+    private Float average;
 
     @DBRef
     @JsonIgnore
@@ -46,11 +46,11 @@ public class ProductEntity extends BaseEntity {
         this.scores = scores;
     }
 
-    public Integer getAverage() {
+    public Float getAverage() {
         return average;
     }
 
-    public void setAverage(Integer average) {
+    public void setAverage(Float average) {
         this.average = average;
     }
 
