@@ -163,4 +163,22 @@ public class ProductService extends BaseService {
 
         return result;
     }
+
+    public ProductEntity getProductAverage(String name) throws Exception {
+        ProductEntity productEntity = getProductByName(name);
+
+        if (productEntity.getScores() != null) {
+            Float sum = 0f;
+            for (ScoreEntity scoreEntity : productEntity.getScores()) {
+                sum += scoreEntity.getScore();
+            }
+            productEntity.setAverage(sum / productEntity.getScores().size());
+        }
+
+        ProductEntity result = new ProductEntity();
+        result.setName(productEntity.getName());
+        result.setAverage(productEntity.getAverage());
+
+        return result;
+    }
 }

@@ -52,4 +52,10 @@ public class ProductController extends BaseController {
     public @ResponseBody List<ScoreEntity> getScores(@PathVariable String name, @PathVariable Long from, @PathVariable Long until) throws Exception {
         return productService.getScoresByCriteria(name, from, until);
     }
+
+    @RequestMapping(value = "/getAverage/{name}", method = RequestMethod.GET)
+    @PreAuthorize(value = "isAuthenticated()")
+    public @ResponseBody ProductEntity getProductAverage(@PathVariable String name) throws Exception {
+        return productService.getProductAverage(name);
+    }
 }
