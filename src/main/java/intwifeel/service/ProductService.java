@@ -176,8 +176,10 @@ public class ProductService extends BaseService {
         }
 
         ProductEntity result = new ProductEntity();
+        result.setId(productEntity.getId());
         result.setName(productEntity.getName());
         result.setAverage(productEntity.getAverage());
+        result.setExample(getExampleForProduct(name));
 
         return result;
     }
